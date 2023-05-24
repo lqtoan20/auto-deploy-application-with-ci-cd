@@ -1,3 +1,3 @@
 URL01 (Git repo): `https://github.com/lqtoan20/auto-deploy-application-with-ci-cd`  
-URL02 (S3 bucket): `http://udapeople-14ce438.s3-website-us-west-2.amazonaws.com`  
+URL02 (S3 bucket): `http://udapeople-e71098b.s3-website-us-east-1.amazonaws.com/`  
 URL03 (CloudFront Frontend URL - blue): `d2h2fysy7sagte.cloudfront.net`  
