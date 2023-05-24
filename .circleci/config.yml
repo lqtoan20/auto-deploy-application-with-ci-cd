@@ -214,6 +214,7 @@ jobs:
       - run:
           name: Run migrations
           command: |
+            npm install
             npm run migrations >> migrations_dump.txt
             cat migrations_dump.txt
       - persist_to_workspace:
