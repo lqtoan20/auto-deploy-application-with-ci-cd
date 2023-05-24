@@ -194,6 +194,10 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/backend
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
@@ -205,10 +209,11 @@ jobs:
       - run:
           name: Install deps
           command: |
-            sudo apt install -y tar gzip curl
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip -qq awscliv2.zip
-            sudo ./aws/install
+            # sudo apt install -y tar gzip curl
+            # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            # unzip -qq awscliv2.zip
+            # sudo ./aws/install
+            apk add --update --no-cache tar gzip nodejs npm aws-cli curl
       - attach_workspace:
           at: ~/
       - run:
