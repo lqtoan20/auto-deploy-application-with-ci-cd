@@ -225,8 +225,6 @@ jobs:
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip -qq awscliv2.zip
             sudo ./aws/install
-      - attach_workspace:
-          at: ~/
       - run:
           name: Run migrations
           command: |
@@ -238,14 +236,11 @@ jobs:
             npm run build
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/backend
       - run:
           name: Send migration results to kvdb
           command: |
-            if grep -q "has been executed successfully" ~/project/backend/migrations_dump.txt
+            cd backend
+            if cat migrations_dump.txt | grep "has been executed successfully."
             then
               curl --insecure https://kvdb.io/F6YkHNHja6o1QDhxGrcZaX/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
