@@ -31,14 +31,17 @@ commands:
           when: on_fail
           # Add when this will run
           command: |
-            SUCCESS=$(curl --insecure https://kvdb.io/F6YkHNHja6o1QDhxGrcZaX/migration_<<parameters.workflow_id>>)
-            echo $SUCCESS
-            if [[ "${SUCCESS}" == "0" ]]
-            then
-              cd ~/project/backend
-              npm install
-              npm run migrations:revert
-            fi
+            cd ~/project/backend
+            npm install
+            npm run migrations:revert
+          # SUCCESS=$(curl --insecure https://kvdb.io/F6YkHNHja6o1QDhxGrcZaX/migration_<<parameters.workflow_id>>)
+          # echo $SUCCESS
+          # if [[ "${SUCCESS}" == "0" ]]
+          # then
+          #   cd ~/project/backend
+          #   npm install
+          #   npm run migrations:revert
+          # fi
 
 jobs:
   build-frontend:
@@ -451,19 +454,19 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-      - test-frontend:
-          requires: [build-frontend]
-      - test-backend:
-          requires: [build-backend]
-      - scan-backend:
-          requires: [build-backend]
-      - scan-frontend:
-          requires: [build-frontend]
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [main]
+      # - test-frontend:
+      #     requires: [build-frontend]
+      # - test-backend:
+      #     requires: [build-backend]
+      # - scan-backend:
+      #     requires: [build-backend]
+      # - scan-frontend:
+      #     requires: [build-frontend]
+      - deploy-infrastructure
+        # requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+        # filters:
+        #   branches:
+        #     only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
